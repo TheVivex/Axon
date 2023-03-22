@@ -6,6 +6,6 @@ class SpecTools
 {
 public:
 	bool isNumber(std::string x);
-	void red_text(std::string x);
+	void color_text(int col);
 };
 

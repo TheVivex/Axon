@@ -22,7 +22,8 @@ private:
 	int user_number = 0;
 	int jump = 7;
 	void Clear_file();
-	void Update_User(int id, std::string x);
+	void Update_User(int id, int index, std::string x, bool current);
+	void Update_User_Menu(int index, std::string lang[80]);
 	int line_amount = 0;
 	int licznik = 0;
 	std::string temp_data[500];

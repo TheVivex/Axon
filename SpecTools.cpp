@@ -1,8 +1,11 @@
 #include "SpecTools.h"
-#include<string>
+#include <string>
+#include <Windows.h>
 #include <iostream>
 
 using namespace std;
+//HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
+
 
 bool SpecTools::isNumber(std::string x)
 {
@@ -18,7 +21,7 @@ bool SpecTools::isNumber(std::string x)
 	}
 }
 
-void SpecTools::red_text(std::string x)
+void SpecTools::color_text(int col)
 {
-	cout << x << endl;
+	//SetConsoleTextAttribute(color, col);
 }

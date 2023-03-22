@@ -5,6 +5,7 @@
 #include <locale.h>
 #include "lang_data.h"
 #include <format>
+#include "SpecTools.h"
 #include "current_time.h"
 #include "user.h"
 #define _WIN32_WINNT 0x500

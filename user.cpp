@@ -4,11 +4,13 @@
 #include <conio.h>
 #include <Windows.h>
 #include <iostream>
+#include "SpecTools.h"
 
 using namespace std;
 
 string data_link = "users.txt";
 HANDLE col = GetStdHandle(STD_OUTPUT_HANDLE);
+SpecTools tools;
 
 bool user::Login(std::string t, std::string pass)
 {
@@ -78,6 +80,10 @@ bool user::Login(std::string t, std::string pass)
 		if (pass == password) 
 		{
 			password = "";
+			if (first_time == 1) 
+			{
+
+			}
 			return true;
 		}
 		else
@@ -102,6 +108,7 @@ void user::User_Menu(std::string lang[80], std::string active_tag)
 		cout << "[F3] " << lang[17] << " | " << "[F4] " << lang[24] << " | " << "[F5] " << lang[18] << endl;
 		SetConsoleTextAttribute(col, 7);
 		Load_Data();
+		string temp = temp_data[0 + (jump * selected_index)];
 		int i = 0;
 
 
@@ -132,11 +139,14 @@ void user::User_Menu(std::string lang[80], std::string active_tag)
 		}
 		else if (GetAsyncKeyState(VK_F5))
 		{
-			string temp = temp_data[0 + (jump * selected_index)];
 			if (temp_data[1 + (jump * selected_index)] != active_tag) 
 			{
 				Delete_User(int(temp[1] - '0'));
 			}
+		}
+		else if (GetAsyncKeyState(VK_F4) || key == 13)
+		{
+			Update_User_Menu(int(temp[1] - '0') - 1, lang);
 		}
 		else if (key == 72) // UP arrow
 		{
@@ -406,13 +416,42 @@ void user::Clear_file()
 
 }
 
-void user::Update_User(int id, std::string x)
+void user::Update_User(int id,int index,std::string x, bool current)
 {
-	switch (id)
-	{
-	case 1: temp_data[];
-	}
 	
+	if (current) 
+	{
+		switch (id)
+		{
+		case 1: temp_data[1 + (jump * index)] = x; tag = x; break;
+		case 2: temp_data[2 + (jump * index)] = x; first_name = x; break;
+		case 3: temp_data[3 + (jump * index)] = x; last_name = x; break;
+		case 4: {
+			temp_data[4 + (jump * index)] = "1234";
+			temp_data[6 + (jump * index)] = "1";
+			first_time = 1;
+			break;
+		}
+		case 5: temp_data[5 + (jump * index)] = x; role = stoi(x);  break;
+		}
+	}
+	else
+	{
+		switch (id)
+		{
+		case 1: temp_data[1 + (jump * index)] = x; break;
+		case 2: temp_data[2 + (jump * index)] = x; break;
+		case 3: temp_data[3 + (jump * index)] = x; break;
+		case 4: {
+			temp_data[4 + (jump * index)] = "1234";
+			temp_data[6 + (jump * index)] = "1";
+			break;
+		}
+		case 5: temp_data[5 + (jump * index)] = x; break;
+		}
+	}
+
+
 	ofstream MyFile(data_link);
 	for (int i = 0; i < licznik; i++)
 	{
@@ -420,4 +459,149 @@ void user::Update_User(int id, std::string x)
 	}
 
 	MyFile.close();
+}
+
+void user::Update_User_Menu(int index, std::string lang[80])
+{
+	//out of loop
+	int selected_index = 1;
+	string temp = "";
+	int limit = (jump - 1);
+	while (true) 
+	{
+		system("CLS");
+		int lang_index = 8;
+		char c = ' ';
+		bool current_user = false;
+		//head
+		cout << lang[28] << ": " << temp_data[2 + (jump * index)] << " " << temp_data[3 + (jump * index)] << endl;
+		cout << lang[29] << ": ";
+
+		SetConsoleTextAttribute(col, 10); //green
+		cout << lang[29 + selected_index] << endl;
+		SetConsoleTextAttribute(col, 7);
+		//head END
+		for (int i = 1; i < limit; i++)
+		{
+			if (i == 4)
+			{
+				cout << lang[9];
+			}
+			else
+			{
+				cout << lang[lang_index] << ": " << temp_data[i + (jump * index)];
+			}
+
+			if (i == selected_index)
+			{
+				SetConsoleTextAttribute(col, 12);
+				cout << " <---" << endl;
+				SetConsoleTextAttribute(col, 7);
+			}
+			else
+			{
+				printf("\n");
+			}
+
+			switch (lang_index)
+			{
+			case 8: lang_index = 20; break;
+			case 20: lang_index++; break;
+			case 21: lang_index = 23; break;
+			//case 23: lang_index = 8; break;
+			}
+		}
+		//system("pause");
+
+		c = _getch();
+
+		if (c == 72) //up
+		{
+			if(!(selected_index - 1 <= 0))
+				selected_index--;
+		}
+		else if (c == 80) // down
+		{
+			if (!(selected_index + 1 >= limit))
+				selected_index++;
+		}
+		else if (c == 13) //enter
+		{
+			if (tag == temp_data[1 + (jump * index)]) 
+			{
+				current_user = true;
+			}
+			
+			if (selected_index == 4) 
+			{
+				system("CLS");
+				cout << lang[35] << ": " << "1234" << endl;
+				system("pause");
+			}
+			else 
+			{
+				bool isON = true;
+				while (isON)
+				{
+					system("CLS");
+					char key = ' ';
+					cout << lang[28] << endl;
+					cout << temp_data[selected_index + (jump * index)];
+					temp = temp_data[selected_index + (jump * index)];
+
+
+					while (key != 13)
+					{
+						key = _getch();
+						if (key == 8)
+						{
+							if (!temp.empty())
+							{
+								temp.pop_back();
+								printf("\b");
+								cout << char(32);
+								printf("\b");
+							}
+						}
+						else if (key != 13)
+						{
+							temp += key;
+							cout << key;
+						}
+						else
+						{
+							if (selected_index == 1 && hasBecome(temp) &&
+								temp != temp_data[selected_index + (jump * index)])
+							{
+								key = ' ';
+								break;
+							}
+							else if (selected_index == 5 && !(tools.isNumber(temp)))
+							{
+								key = ' ';
+								break;
+							}
+							else if (temp.empty()) 
+							{
+								key = ' ';
+								break;
+							}
+							else
+							{
+								isON = false;
+							}
+
+						}
+					}
+
+				}
+			}
+			Update_User(selected_index, index, temp, current_user);
+		}
+		else if (GetAsyncKeyState(VK_ESCAPE))
+		{
+			break;
+		}
+	}
+	
 }
