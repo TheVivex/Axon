@@ -12,7 +12,7 @@ string data_link = "users.txt";
 HANDLE col = GetStdHandle(STD_OUTPUT_HANDLE);
 SpecTools tools;
 
-bool user::Login(std::string t, std::string pass)
+bool user::Login(std::string t, std::string pass, std::string lang[80])
 {
 	string database;
 	ifstream MyReadFile(data_link);
@@ -26,6 +26,7 @@ bool user::Login(std::string t, std::string pass)
 		if (database[0] == '[')
 		{
 			licz = 0;
+			temp_index++;
 			user_number++;
 			write = false;
 		}
@@ -82,7 +83,7 @@ bool user::Login(std::string t, std::string pass)
 			password = "";
 			if (first_time == 1) 
 			{
-
+				Change_Password(lang);
 			}
 			return true;
 		}
@@ -337,6 +338,7 @@ void user::Logout()
 void user::Change_Password(std::string lang[80])
 {
 	system("CLS");
+	Load_Data();
 	while (true) 
 	{
 		cout << lang[26] << ": ";
@@ -364,6 +366,7 @@ void user::Change_Password(std::string lang[80])
 
 		if (password_restriction(pass))
 		{
+			Update_User(6, temp_index - 1, pass, true);
 			break;
 		}
 		system("CLS");
@@ -433,6 +436,12 @@ void user::Update_User(int id,int index,std::string x, bool current)
 			break;
 		}
 		case 5: temp_data[5 + (jump * index)] = x; role = stoi(x);  break;
+		case 6: {
+			temp_data[4 + (jump * index)] = x; 
+			temp_data[6 + (jump * index)] = "0";
+			first_time = 0;
+			break;
+		}
 		}
 	}
 	else

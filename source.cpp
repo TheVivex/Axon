@@ -26,6 +26,8 @@ void Windows_Settings()
 	cfi.dwFontSize.Y = 20;
 	SetCurrentConsoleFontEx(hcsb, FALSE, &cfi);
 	CloseHandle(hcsb);
+
+	SetConsoleTitleA("Alp 1.3");
 }
 
 void set_lang(int x) 
@@ -48,7 +50,7 @@ void Fst_line()
 	SetConsoleTextAttribute(color, 12);
 	cout << "[Local]" << endl;
 	SetConsoleTextAttribute(color, 7);
-	SetConsoleTitleA("Alp 1.3");
+	//SetConsoleTitleA("Alp 1.3");
 }
 
 bool Exit_Alert(int x) 
@@ -382,7 +384,7 @@ void Login_Process()
 	{
 		system("CLS");
 	}
-	else if (usr.Login(login, pass))
+	else if (usr.Login(login, pass, lang_text.lang_line))
 	{
 		system("CLS");
 		pass = "";

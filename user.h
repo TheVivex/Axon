@@ -8,7 +8,7 @@ public:
 	std::string tag = "";
 	int role;
 	int first_time;
-	bool Login(std::string t, std::string pass);
+	bool Login(std::string t, std::string pass, std::string lang[80]);
 	void User_Menu(std::string lang[80], std::string active_tag);
 	void Add_User(std::string lang[80]);
 	void Delete_User(int index);
@@ -26,6 +26,7 @@ private:
 	void Update_User_Menu(int index, std::string lang[80]);
 	int line_amount = 0;
 	int licznik = 0;
+	int temp_index = 0;
 	std::string temp_data[500];
 	bool hasBecome(std::string x);
 	bool password_restriction(std::string x);
